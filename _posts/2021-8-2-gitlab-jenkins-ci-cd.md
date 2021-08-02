@@ -159,11 +159,11 @@ webhook이란 간단히 말하면 어떤 이벤트가 발생했을때 클라이�
 
 <br/>
 
-![](/assets/img/DevOps/젠킨스_깃랩_웹훅_설정.png)
+![](/assets/img/DevOps/젠킨스_깃랩_웹훅_설정.png)
 
 <br/>
 
-![](/assets/img/DevOps/젠킨스_깃랩_웹훅_설정_트리거.png)
+![](/assets/img/DevOps/젠킨스_깃랩_웹훅_설정_트리거.png)
 
 <br/>
 
