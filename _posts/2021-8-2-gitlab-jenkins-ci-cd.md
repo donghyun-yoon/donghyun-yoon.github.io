@@ -10,6 +10,17 @@ date: 2021-08-02
 >
 > 꼭 도커에서 작업할 필요없이 ec2에서 jenkins, local에서 jenkins를 다운받아 사용하셔도 됩니다.
 
+<br/>
+
+![](/assets/img/DevOps/CI_CD_Flow.png)
+
+<br/>
+
+제가 이번에 배포하게 될 흐름입니다.    
+순서대로 진행되기때문에 참고하시면 좋을꺼같습니다.
+
+<br/>
+
 
 ## Docker에서 젠킨스 다운
 
@@ -32,6 +43,8 @@ date: 2021-08-02
 <br/>
 
 `docker exec -it jenkins cat /var/jenkins_home/secrets/initialAdminPassword` 명령어로 Administrator password 확인가능합니다.
+
+아래 사진은 도커가 아닌 cmd창에서 패스워드 확인하는 모습입니다.
 
 <br/>
 
@@ -194,7 +207,7 @@ Gitlab > settings > webhook
 
 <br/>
 
-![](/assets/img/DevOps/깃랩_엡훅_테스트.png)
+![](/assets/img/DevOps/깃랩_엡훅_테스트.png)
 
 <br/>
 
