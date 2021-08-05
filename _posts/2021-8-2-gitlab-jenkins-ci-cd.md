@@ -19,6 +19,16 @@ date: 2021-08-02
 제가 이번에 배포하게 될 흐름입니다.    
 순서대로 진행되기때문에 참고하시면 좋을꺼같습니다.
 
+제가 찾아본 서버에 배포하는 방법은
+1. (ec2에 젠킨스와 결과물 같이 올릴경우) docker의 경우 -v 옵션으로 결과물 폴더를 mount해서 사용하는 방법
+2. (ec2에 젠킨스와 도커가 있을경우) jenkins에서 빌드된 결과물을 docker로 바로 실행
+3. (젠킨스가 실행되는 곳과 다른 원격서버일 경우) SSH명령을 통해 결과물 전달
+4. (젠킨스가 실행되는 곳과 다른 원격서버일 경우) 빌드된 결과물을 Docker Hub에 올려서 결과물 전달
+
+저는 declarative pipeline 사용하였고 SSH를 통해 원격 서버에 배포해줍니다.
+
+SSH를 이용한 이유는 현재 프로젝트는 ec2 한개로 서버로 사용하지만 추후에는 젠킨스 빌드용 서버 배포용 서버를 따로 사용하는 경우도 있다고 생각하여 SSH를 이용하기로 하였습니다.
+
 <br/>
 
 
@@ -185,7 +195,7 @@ webhook이란 간단히 말하면 어떤 이벤트가 발생했을때 클라이�
 
 <br/>
 
-![](/assets/img/DevOps/젠킨스_시크릿토큰생성.png)
+![](/assets/img/DevOps/젠킨스_시크릿토큰생성.png)
 
 <br/>
 
@@ -199,7 +209,7 @@ Gitlab > settings > webhook
 
 <br/>
 
-![](/assets/img/DevOps/깃랩_웹훅_설정.png)
+![](/assets/img/DevOps/깃랩_웹훅_설정.png)
 
 <br/>
 
@@ -260,11 +270,31 @@ pipeline {
             }
         }
 
+        stage('SSH transfer'){
+            steps([$class: 'BapSshPromotionPublisherPlugin']) {
+				sshPublisher(
+					continueOnError: false, failOnError: true,
+					publishers: [
+						sshPublisherDesc(
+							configName: "Pubilc over SSH에서 설정한 Name",
+							verbose: true,
+							transfers: [
+								sshTransfer(
+									sourceFiles: "전송할 파일 경로",
+                                    removePrefix: "파일에서 삭제할 경로가 있다면 작성", 
+                                    remoteDirectory: "배포할 위치",
+                                    execCommand: "원격지에서 실행할 커맨드" 
+								)
+							]
+						)
+					]
+				)
+			}
+        }
+
 }
 ```
 
 <br/>
 
-jenkins의 pipeline중 declarative pipeline을 사용하였습니다.
-
-자세한 Pipeline 문법은 추후 포스팅을 하도록 하곘습니다.
+**`SSH를 통해 빌드된 결과물을 서버에 저장하고 execCommand로 docker-compose를 실행하게 되면 자동으로 배포가 됩니다.`**
