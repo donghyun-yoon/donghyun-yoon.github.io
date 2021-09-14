@@ -39,7 +39,7 @@ SSH를 이용한 이유는 현재 프로젝트는 ec2 한개로 서버로 사용
 `docker pull jenkins/jenkins`    
 (도커허브를 이용하여 사용하실분들은 도커가 깔려있는 젠킨스를 다운 받으시면 됩니다.)
 
-`docker run -d -u root -p 9090:8080 --name=jenkins jenkins/jenkins`    
+`docker run -d -u root -p 9090:8080 -e TZ=Asia/Seoul --name=jenkins jenkins/jenkins`    
 (저는 9090포트로 접속하겠다고 설정하였고 도커의 옵션들은 추후 포스팅할 예정입니다.)
 
 이제 브라우저에서 public ipv4:9090 or 도메인명:9090 or 로컬에서 접속하고 계시다면 localhost:9090 으로 접속합니다.
